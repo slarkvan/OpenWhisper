@@ -5,7 +5,8 @@ import progress from "progress";
 import { createHash } from "crypto";
 import path from "node:path";
 import chalk from "chalk";
-const fs = require('fs-extra')
+// const fs = require('fs-extra')
+import fs from 'fs-extra'
 
 const model = "ggml-tiny.en.bin";
 const sha = "c78c86eb1a8faa21b369bcd33207cc90d64ae9df";

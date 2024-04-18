@@ -7,7 +7,7 @@ export const builtins = ['electron', ...builtinModules.map((m) => [m, `node:${m}
 
 export const external = [...builtins, ...Object.keys('dependencies' in pkg ? (pkg.dependencies as Record<string, unknown>) : {})];
 
-export function getBuildConfig(env: ConfigEnv<'build'>): UserConfig {
+export function getBuildConfig(env: any): UserConfig {
   const { root, mode, command } = env;
 
   return {
