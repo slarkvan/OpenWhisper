@@ -235,6 +235,12 @@ class Whisper {
   }
 
   registerIpcHandlers() {
+    console.log("registerIpcHandlers");
+    ipcMain.handle("whisper/describe", async () => {
+      console.log("whisper/describe");
+      return this.config;
+    });
+
     ipcMain.handle("whisper-config", async () => {
       return this.config;
     });

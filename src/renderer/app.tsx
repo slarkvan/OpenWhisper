@@ -1,4 +1,13 @@
-import React from "react";
 export const App = () => {
-  return <div>Hello world</div>;
+  return (
+    <div>
+      <button
+        onClick={() => {
+          window.__APP__.whisper.describe();
+        }}
+      >
+        Test ICP
+      </button>
+    </div>
+  );
 };

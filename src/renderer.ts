@@ -27,3 +27,9 @@
  */
 import "./renderer/index";
 import "./index.css";
+
+declare global {
+  interface Window {
+    __APP__: AppType;
+  }
+}
