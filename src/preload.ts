@@ -10,4 +10,14 @@ contextBridge.exposeInMainWorld("__APP__", {
       ipcRenderer.invoke("whisper/describe");
     },
   },
+  dialog: {
+    showOpenDialog: (options: Electron.OpenDialogOptions) =>
+      ipcRenderer.invoke("dialog-show-open-dialog", options),
+    showSaveDialog: (options: Electron.SaveDialogOptions) =>
+      ipcRenderer.invoke("dialog-show-save-dialog", options),
+    showMessageBox: (options: Electron.MessageBoxOptions) =>
+      ipcRenderer.invoke("dialog-show-message-box", options),
+    showErrorBox: (title: string, content: string) =>
+      ipcRenderer.invoke("dialog-show-error-box", title, content),
+  },
 });

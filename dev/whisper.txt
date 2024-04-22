@@ -1,0 +1,160 @@
+// LOG: 调用 nodejs runtime 去翻译 audio or video
+  const transcribeByLocal = async (url: string) => {
+    const res = await EnjoyApp.whisper.transcribe(
+      {
+        file: url,
+      },
+      {
+        force: true,
+        extra: ["--prompt", `"Hello! Welcome to listen to this audio."`],
+      }
+    );
+
+    return {
+      engine: "whisper",
+      model: res.model.type,
+      text: res.transcription.map((segment) => segment.text).join(" "),
+    };
+  };
+
+
+      transcribe: (
+      params: {
+        file?: string;
+        blob?: {
+          type: string;
+          arrayBuffer: ArrayBuffer;
+        };
+      },
+      options?: {
+        force?: boolean;
+        extra?: string[];
+      }
+    ) => {
+      return ipcRenderer.invoke("whisper-transcribe", params, options);
+    },
+
+    ipcMain.handle("whisper-transcribe", async (event, params, options) => {
+      try {
+        return await this.transcribe(params, {
+          ...options,
+          onProgress: (progress) => {
+            event.sender.send("whisper-on-progress", progress);
+          },
+        });
+      } catch (err) {
+        event.sender.send("on-notification", {
+          type: "error",
+          message: err.message,
+        });
+      }
+    });
+
+
+
+      async transcribe(
+    params: {
+      file?: string;
+      blob?: {
+        type: string;
+        arrayBuffer: ArrayBuffer;
+      };
+    },
+    options?: {
+      force?: boolean;
+      extra?: string[];
+      onProgress?: (progress: number) => void;
+    }
+  ): Promise<Partial<WhisperOutputType>> {
+    logger.debug("transcribing from local");
+
+    const { blob } = params;
+    let { file } = params;
+
+    if (file) {
+      file = enjoyUrlToPath(file);
+    } else if (blob) {
+      const format = blob.type.split("/")[1];
+      if (format !== "wav") {
+        throw new Error("Only wav format is supported");
+      }
+
+      file = path.join(settings.cachePath(), `${Date.now()}.${format}`);
+      await fs.outputFile(file, Buffer.from(blob.arrayBuffer));
+    } else {
+      throw new Error("No file or blob provided");
+    }
+
+    const model = this.currentModel();
+
+    const { force = false, extra = [], onProgress } = options || {};
+    const filename = path.basename(file, path.extname(file));
+    const tmpDir = settings.cachePath();
+    const outputFile = path.join(tmpDir, filename + ".json");
+
+    logger.info(`Trying to transcribe ${file} to ${outputFile}`);
+    if (fs.pathExistsSync(outputFile) && !force) {
+      logger.info(`File ${outputFile} already exists`);
+      return fs.readJson(outputFile);
+    }
+
+    const commandArguments = [
+      "--file",
+      file,
+      "--model",
+      model,
+      "--output-json",
+      "--output-file",
+      path.join(tmpDir, filename),
+      "-pp",
+      ...extra,
+    ];
+
+    logger.info(
+      `Running command: ${this.binMain} ${commandArguments.join(" ")}`
+    );
+    // LOG: Whipser executor
+    const command = spawn(this.binMain, commandArguments, {
+      timeout: PROCESS_TIMEOUT,
+    });
+
+    return new Promise((resolve, reject) => {
+      command.stdout.on("data", (data) => {
+        logger.debug(`stdout: ${data}`);
+      });
+
+      command.stderr.on("data", (data) => {
+        const output = data.toString();
+        logger.info(`stderr: ${output}`);
+        if (output.startsWith("whisper_print_progress_callback")) {
+          const progress = parseInt(output.match(/\d+%/)?.[0] || "0");
+          if (typeof progress === "number") onProgress(progress);
+        }
+      });
+
+      command.on("exit", (code) => {
+        logger.info(`transcribe process exited with code ${code}`);
+      });
+
+      command.on("error", (err) => {
+        logger.error("transcribe error", err.message);
+        reject(err);
+      });
+
+      command.on("close", () => {
+        if (fs.pathExistsSync(outputFile)) {
+          resolve(fs.readJson(outputFile));
+        } else {
+          reject(new Error("Transcription failed"));
+        }
+      });
+    });
+  }
+
+
+
+  // LOG: align
+    const alignmentResult = await EnjoyApp.echogarden.align(
+      new Uint8Array(await blob.arrayBuffer()),
+      transcript
+    );

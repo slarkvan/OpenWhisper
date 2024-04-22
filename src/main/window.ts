@@ -1,4 +1,4 @@
-import { BrowserWindow } from "electron";
+import { BrowserWindow, ipcMain, dialog } from "electron";
 import path from "path";
 import url from "url";
 import whisper from "./whisper";
@@ -18,6 +18,32 @@ main.init = () => {
   }
 
   whisper.registerIpcHandlers();
+
+  // Dialog
+  ipcMain.handle("dialog-show-open-dialog", (event, options) => {
+    return dialog.showOpenDialogSync(
+      BrowserWindow.fromWebContents(event.sender),
+      options
+    );
+  });
+
+  ipcMain.handle("dialog-show-save-dialog", (event, options) => {
+    return dialog.showSaveDialogSync(
+      BrowserWindow.fromWebContents(event.sender),
+      options
+    );
+  });
+
+  ipcMain.handle("dialog-show-message-box", (event, options) => {
+    return dialog.showMessageBoxSync(
+      BrowserWindow.fromWebContents(event.sender),
+      options
+    );
+  });
+
+  ipcMain.handle("dialog-show-error-box", (_event, title, content) => {
+    return dialog.showErrorBox(title, content);
+  });
 
   const createWindow = () => {
     const mainWindow = new BrowserWindow({
