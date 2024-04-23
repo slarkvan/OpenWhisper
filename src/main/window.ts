@@ -2,6 +2,7 @@ import { BrowserWindow, ipcMain, dialog } from "electron";
 import path from "path";
 import url from "url";
 import whisper from "./whisper";
+import { videoHandler } from "./video";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +19,7 @@ main.init = () => {
   }
 
   whisper.registerIpcHandlers();
+  videoHandler.register();
 
   // Dialog
   ipcMain.handle("dialog-show-open-dialog", (event, options) => {

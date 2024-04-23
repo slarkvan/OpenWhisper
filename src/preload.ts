@@ -1,13 +1,51 @@
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
-import { contextBridge, ipcRenderer } from "electron";
+import { IpcRendererEvent, contextBridge, ipcRenderer } from "electron";
 // import { version } from "../package.json";
 
 // LOG: preload scripts
 contextBridge.exposeInMainWorld("__APP__", {
+  video: {
+    create: ({ uri }: { uri: string }) => {
+      return ipcRenderer.invoke("video/create", { uri });
+    },
+  },
   whisper: {
     describe: () => {
-      ipcRenderer.invoke("whisper/describe");
+      return ipcRenderer.invoke("whisper/describe");
+    },
+    config: () => {
+      return ipcRenderer.invoke("whisper-config");
+    },
+    setModel: (model: string) => {
+      return ipcRenderer.invoke("whisper-set-model", model);
+    },
+    setService: (service: string) => {
+      return ipcRenderer.invoke("whisper-set-service", service);
+    },
+    check: () => {
+      return ipcRenderer.invoke("whisper-check");
+    },
+    transcribe: (
+      params: {
+        file?: string;
+        blob?: {
+          type: string;
+          arrayBuffer: ArrayBuffer;
+        };
+      },
+      options?: {
+        force?: boolean;
+        extra?: string[];
+      }
+    ) => {
+      return ipcRenderer.invoke("whisper-transcribe", params, options);
+    },
+    onProgress: (
+      callback: (event: IpcRendererEvent, progress: number) => void
+    ) => ipcRenderer.on("whisper-on-progress", callback),
+    removeProgressListeners: () => {
+      ipcRenderer.removeAllListeners("whisper-on-progress");
     },
   },
   dialog: {

@@ -91,7 +91,8 @@ const whisperConfig = (): WhisperConfigType => {
 const userDataPath = () => {
   const userData = path.join(
     libraryPath(),
-    settings.getSync("user.id").toString()
+    // settings.getSync("user.id").toString()
+    "slark" // TODO: user
   );
   fs.ensureDirSync(userData);
 

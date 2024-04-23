@@ -27,6 +27,7 @@
     "@types/electron-squirrel-startup": "^1.0.2",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
+    "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "electron": "30.0.0",
@@ -53,6 +54,7 @@
     "i18next": "^23.11.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "uuid": "^9.0.1",
     "zustand": "^4.5.2"
   }
 }
