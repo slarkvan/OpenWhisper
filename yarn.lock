@@ -1066,6 +1066,13 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
+"@vidstack/react@^1.11.19":
+  version "1.11.19"
+  resolved "https://registry.yarnpkg.com/@vidstack/react/-/react-1.11.19.tgz#ddd0bf5a21eee87416f448052f615ea5d4547675"
+  integrity sha512-D8QZpiPzfAo2xOOGmuVkIwIo44hf9lgipkJK9xTCpYk+ms3uN4a12WUD6doHoEQVChNOGwCa1Dji864jDsBr3A==
+  dependencies:
+    media-captions "^1.0.1"
+
 "@xmldom/xmldom@^0.8.8":
   version "0.8.10"
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.10.tgz#a1337ca426aa61cef9fe15b5b28e340a72f6fa99"
@@ -3663,6 +3670,11 @@ matcher@^3.0.0:
   integrity sha512-OkeDaAZ/bQCxeFAozM55PKcKU0yJMPGifLwV4Qgjitu+5MoAfSQN4lsLJeXZ1b8w0x+/Emda6MZgXS1jvsapng==
   dependencies:
     escape-string-regexp "^4.0.0"
+
+media-captions@^1.0.1:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/media-captions/-/media-captions-1.0.3.tgz#e766d1e7cb7e32a2e43008541e59eab4c3580016"
+  integrity sha512-y2Qi5rqjwgH97zoko1vzu5Q6nnS0KzEQSvd4NOjnFym9JqnFb5VSsUg21RNb5cQ/nhCFJ0wz/XK+2uMwFCr6TQ==
 
 media-typer@0.3.0:
   version "0.3.0"

@@ -51,6 +51,7 @@
   "dependencies": {
     "@andrkrn/ffprobe-static": "^5.2.0",
     "@radix-ui/react-slot": "^1.0.2",
+    "@vidstack/react": "^1.11.19",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",

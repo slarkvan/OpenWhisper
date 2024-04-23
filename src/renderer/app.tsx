@@ -4,6 +4,11 @@ import { AudioFormats, VideoFormats } from "@/constants";
 import { useMediaStore } from "./store/media-store";
 import ReactPlayer from "react-player";
 import { Button } from "@/renderer/components/ui/button";
+import { MediaPlayer, MediaProvider } from "@vidstack/react";
+import {
+  defaultLayoutIcons,
+  DefaultVideoLayout,
+} from "@vidstack/react/player/layouts/default";
 
 export const App = () => {
   const App = useAppStore((s) => s.App);
@@ -13,7 +18,6 @@ export const App = () => {
     setMediaUri,
     setMediaFilePath,
   } = useMediaStore();
-  console.log("App", App);
 
   const handleLocalFile = useCallback(() => {
     (async () => {
@@ -55,10 +59,10 @@ export const App = () => {
 
   const handleCopyLocalFile = useCallback(() => {
     (async () => {
-      console.log("mediaUri", mediaUri);
       const res = await App.video.create({
         uri: mediaUri,
       });
+      console.log("video.create", res);
       setMediaFilePath(res?.filePath);
     })();
   }, [App, mediaUri]);
@@ -100,8 +104,22 @@ export const App = () => {
       <div>mediaUri:{mediaUri}</div>
       <div>mediaFilePath:{mediaFilePath}</div>
 
-      <div>{mediaFilePath && <ReactPlayer url={mediaFilePath} />}</div>
-      <div>{mediaUri && <ReactPlayer url={mediaUri} />}</div>
+      {mediaFilePath && (
+        <MediaPlayer
+          title="Sprite Fight"
+          // src="https://files.vidstack.io/sprite-fight/720p.mp4"
+          src={{
+            src: mediaFilePath,
+            type: "video/mp4",
+          }}
+        >
+          <MediaProvider />
+          <DefaultVideoLayout
+            thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt"
+            icons={defaultLayoutIcons}
+          />
+        </MediaPlayer>
+      )}
     </div>
   );
 };

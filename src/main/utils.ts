@@ -59,19 +59,23 @@ export function openWhisperUrlToPath(openWhisperUr: string): string {
 }
 
 export function pathToOpenWhisperUrl(filePath: string): string {
-  let enjoyUrl = filePath;
+  let openwhisperUrl = filePath;
 
   if (filePath.startsWith(settings.userDataPath())) {
-    enjoyUrl = `openwhisper://library/${filePath.replace(
+    console.log("case 1", filePath, settings.userDataPath());
+    // TODO: 是否多一个 / ？
+    openwhisperUrl = `openwhisper://library${filePath.replace(
       settings.userDataPath(),
       ""
     )}`;
   } else if (filePath.startsWith(settings.libraryPath())) {
-    enjoyUrl = `openwhisper://library/${filePath.replace(
+    console.log("case 2", filePath, settings.libraryPath());
+    // TODO: 是否多一个 / ？
+    openwhisperUrl = `openwhisper://library/${filePath.replace(
       settings.libraryPath(),
       ""
     )}`;
   }
-
-  return enjoyUrl;
+  console.log("openwhisperUrl", openwhisperUrl);
+  return openwhisperUrl;
 }

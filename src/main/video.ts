@@ -3,7 +3,7 @@ import fs from "fs-extra";
 import path from "path";
 import { v5 as uuidv5 } from "uuid";
 import log from "@main/logger";
-import { hashFile } from "./utils";
+import { hashFile, pathToOpenWhisperUrl } from "./utils";
 import settings from "./settings";
 
 const logger = log.scope("video");
@@ -52,7 +52,7 @@ class VideoHandler implements IVideoHandler {
     console.log("create params:", params);
     const { uri } = params;
     const filePath = await VideoHandler.buildFromLocalFile(uri);
-    return { filePath };
+    return { filePath: pathToOpenWhisperUrl(filePath) };
   }
 
   register() {
