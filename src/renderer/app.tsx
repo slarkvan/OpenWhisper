@@ -3,6 +3,7 @@ import { useAppStore } from "@/renderer/store/app-store";
 import { AudioFormats, VideoFormats } from "@/constants";
 import { useMediaStore } from "./store/media-store";
 import ReactPlayer from "react-player";
+import { Button } from "@/renderer/components/ui/button";
 
 export const App = () => {
   const App = useAppStore((s) => s.App);
@@ -89,7 +90,7 @@ export const App = () => {
   return (
     <div className="min-w-[600px]">
       <div className="text-orange-500">OpenWhisper</div>
-      <button onClick={handleLocalFile}>Upload File</button>
+      <Button onClick={handleLocalFile}>Upload File</Button>
       <button onClick={handleCopyLocalFile}>Copy File</button>
       <button onClick={transcribeByLocal}>Whisper transcribe</button>
 

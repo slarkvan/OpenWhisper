@@ -1,7 +1,6 @@
+const { fontFamily } = require("tailwindcss/defaultTheme")
+
 /** @type {import('tailwindcss').Config} */
-
-// const defaultTheme = require("tailwindcss/defaultTheme");
-
 module.exports = {
   darkMode: ["class"],
   content: ["./src/renderer/**/*.{ts,tsx}"],
@@ -14,9 +13,6 @@ module.exports = {
       },
     },
     extend: {
-    //   fontFamily: {
-    //     code: ["CharisSIL", ...defaultTheme.fontFamily.mono],
-    //   },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -53,18 +49,21 @@ module.exports = {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
+        lg: `var(--radius)`,
+        md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+          to: { height: "0" },
         },
       },
       animation: {
@@ -73,11 +72,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    // require("tailwindcss-animate"),
-    // require("@tailwindcss/typography"),
-    // require("tailwind-scrollbar"),
-    // require("tailwind-scrollbar-hide"),
-    // require("@vidstack/react/tailwind.cjs"),
-  ],
-};
+  plugins: [require("tailwindcss-animate")],
+}
