@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useAppStore } from "@/renderer/store/app-store";
 import { AudioFormats, VideoFormats } from "@/constants";
 import { useMediaStore } from "./store/media-store";
+import ReactPlayer from "react-player";
 
 export const App = () => {
   const App = useAppStore((s) => s.App);
@@ -86,7 +87,8 @@ export const App = () => {
   }, [App, mediaFilePath]);
 
   return (
-    <div>
+    <div className="min-w-[600px]">
+      <div className="text-orange-500">OpenWhisper</div>
       <button onClick={handleLocalFile}>Upload File</button>
       <button onClick={handleCopyLocalFile}>Copy File</button>
       <button onClick={transcribeByLocal}>Whisper transcribe</button>
@@ -96,6 +98,9 @@ export const App = () => {
       <button onClick={transcode}>ffmpeg transcode</button>
       <div>mediaUri:{mediaUri}</div>
       <div>mediaFilePath:{mediaFilePath}</div>
+
+      <div>{mediaFilePath && <ReactPlayer url={mediaFilePath} />}</div>
+      <div>{mediaUri && <ReactPlayer url={mediaUri} />}</div>
     </div>
   );
 };
