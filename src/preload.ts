@@ -58,4 +58,12 @@ contextBridge.exposeInMainWorld("__APP__", {
     showErrorBox: (title: string, content: string) =>
       ipcRenderer.invoke("dialog-show-error-box", title, content),
   },
+  ffmpeg: {
+    check: () => {
+      return ipcRenderer.invoke("ffmpeg-check-command");
+    },
+    transcode: (input: string, output: string, options: string[]) => {
+      return ipcRenderer.invoke("ffmpeg-transcode", input, output, options);
+    },
+  },
 });

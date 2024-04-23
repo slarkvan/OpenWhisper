@@ -57,3 +57,21 @@ export function openWhisperUrlToPath(openWhisperUr: string): string {
 
   return filePath;
 }
+
+export function pathToOpenWhisperUrl(filePath: string): string {
+  let enjoyUrl = filePath;
+
+  if (filePath.startsWith(settings.userDataPath())) {
+    enjoyUrl = `openwhisper://library/${filePath.replace(
+      settings.userDataPath(),
+      ""
+    )}`;
+  } else if (filePath.startsWith(settings.libraryPath())) {
+    enjoyUrl = `openwhisper://library/${filePath.replace(
+      settings.libraryPath(),
+      ""
+    )}`;
+  }
+
+  return enjoyUrl;
+}

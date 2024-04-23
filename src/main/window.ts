@@ -3,6 +3,7 @@ import path from "path";
 import url from "url";
 import whisper from "./whisper";
 import { videoHandler } from "./video";
+import ffmpeg from "./ffmpeg";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +21,7 @@ main.init = () => {
 
   whisper.registerIpcHandlers();
   videoHandler.register();
+  ffmpeg.registerIpcHandlers();
 
   // Dialog
   ipcMain.handle("dialog-show-open-dialog", (event, options) => {

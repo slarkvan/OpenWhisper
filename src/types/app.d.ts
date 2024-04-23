@@ -41,4 +41,12 @@ type AppType = {
     ) => Promise<Electron.MessageBoxReturnValue>;
     showErrorBox: (title: string, content: string) => Promise<void>;
   };
+  ffmpeg: {
+    check: () => Promise<boolean>;
+    transcode: (
+      input: string,
+      output?: string,
+      options?: string[]
+    ) => Promise<string>;
+  };
 };

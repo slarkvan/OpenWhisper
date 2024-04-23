@@ -61,11 +61,39 @@ export const App = () => {
     })();
   }, [App, mediaUri]);
 
+  const testFfmpeg = useCallback(() => {
+    (async () => {
+      const res = await App.ffmpeg.check();
+      console.log("ffmpeg check res", res);
+    })();
+  }, [App]);
+
+  const transcode = useCallback(() => {
+    (async () => {
+      const res = await App.ffmpeg.transcode(mediaFilePath);
+      console.log("ffmpeg transcode res", res);
+      const res2 = await App.whisper.transcribe(
+        {
+          file: res,
+        },
+        {
+          force: true,
+          extra: ["--prompt", `"Hello! Welcome to listen to this audio."`],
+        }
+      );
+      console.log("whisper transcribe res2", res2);
+    })();
+  }, [App, mediaFilePath]);
+
   return (
     <div>
       <button onClick={handleLocalFile}>Upload File</button>
       <button onClick={handleCopyLocalFile}>Copy File</button>
       <button onClick={transcribeByLocal}>Whisper transcribe</button>
+
+      <br />
+      <button onClick={testFfmpeg}>Test ffmpeg</button>
+      <button onClick={transcode}>ffmpeg transcode</button>
       <div>mediaUri:{mediaUri}</div>
       <div>mediaFilePath:{mediaFilePath}</div>
     </div>

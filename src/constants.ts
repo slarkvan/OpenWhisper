@@ -98,3 +98,12 @@ export const PROCESS_TIMEOUT = 1000 * 60 * 15;
 export const AudioFormats = ["mp3", "wav", "ogg", "flac", "m4a", "wma", "aac"];
 
 export const VideoFormats = ["mp4", "mkv", "avi", "mov", "wmv", "flv", "webm"];
+
+export const FFMPEG_CONVERT_WAV_OPTIONS = [
+  "-ar",
+  "16000",
+  "-ac",
+  "1",
+  "-c:a",
+  "pcm_s16le",
+];
