@@ -66,6 +66,8 @@ export const App = () => {
       <button onClick={handleLocalFile}>Upload File</button>
       <button onClick={handleCopyLocalFile}>Copy File</button>
       <button onClick={transcribeByLocal}>Whisper transcribe</button>
+      <div>mediaUri:{mediaUri}</div>
+      <div>mediaFilePath:{mediaFilePath}</div>
     </div>
   );
 };

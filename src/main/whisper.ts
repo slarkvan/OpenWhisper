@@ -134,6 +134,7 @@ class Whisper {
 
   /* Ensure the file is in wav format
    * and 16kHz sample rate
+   * TODO: mp3 转成 wav 格式
    */
   async transcribe(
     params: {
@@ -156,6 +157,7 @@ class Whisper {
 
     if (file) {
       file = openWhisperUrlToPath(file);
+      logger.debug("file", file);
     } else if (blob) {
       const format = blob.type.split("/")[1];
       if (format !== "wav") {
